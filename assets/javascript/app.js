@@ -1,7 +1,7 @@
 var games = ['Cyber Punk', 'Apex Legends', 'Fortnite', 'Devil May Cry', 'StarCraft', 'Diablo', 'Grand Theft Auto', 'Red Dead Redemption', 'Tomb Raider', 'Mario Kart', 'Super Mario', 'Final Fantasy'];
 
-var apiKey = 'wqxHRPOli6qO50YxXqMbQ1wYnC3FPGhJ';
-var searchSyntax = 'api.giphy.com/v1/gifs/search?';
+var apiKey = 'api_key=wqxHRPOli6qO50YxXqMbQ1wYnC3FPGhJ';
+var searchSyntax = 'https://api.giphy.com/v1/gifs/search?';
 
 
 // Takes in an array (ex. games) and outputs each item as a button in the btnArea
@@ -13,7 +13,7 @@ function RenderButtonsFrom(array) {
         var button = $('<button>');
         button.addClass('btn btn-info');
         button.attr('id', 'topicButtons');
-        button.attr('data-topic', array[i]);
+        button.attr('data-game', array[i]);
         button.text(array[i]);
         container.append(button);
     }
@@ -26,16 +26,15 @@ function RenderButtonsFrom(array) {
 }
 
 // Function to convert titles for API Calls
-function TitleConverter(movieName) {
+function TitleConverter(gameName) {
     var searchTerm = '';
-    console.log(movieName.length);
-    for (var i = 0; i < movieName.length; i++) {
+    for (var i = 0; i < gameName.length; i++) {
         console.log('on cycle: '+i);
-        console.log(movieName[i]);
-        if (movieName[i] === ' ') {
+        console.log(gameName[i]);
+        if (gameName[i] === ' ') {
           searchTerm += '+';
         } else {
-          searchTerm += movieName[i];
+          searchTerm += gameName[i];
         }
     }
     return searchTerm
@@ -44,7 +43,8 @@ function TitleConverter(movieName) {
 
 function SearchAPICall(searchTerm) {
     $.ajax({
-        url: 'https://',
+        // Build search query using components
+        url: searchSyntax + apiKey + '&q=' + searchTerm,
         method: "GET"
     }).then(function(response){
         console.log(response);
@@ -52,8 +52,8 @@ function SearchAPICall(searchTerm) {
 }
 
 // Event handler for topic buttons being clicked
-$('#topicButtons').on('click', function(){
-
+$('#btnArea').on('click', '#topicButtons', function(){
+    console.log($(this).attr('data-game'));
 
 });
 
@@ -64,11 +64,10 @@ $('#addGame').on('click', function(event) {
     // Take new game user input value submitted by user and assign: newGameName
     var newGameName = $('#gameInput').val();
 
-    console.log(newGameName);
-
     // Push new game to games array and re-render buttons from games
     games.push(newGameName);
     RenderButtonsFrom(games);
 });
 
+// Arguments begin here
 RenderButtonsFrom(games);
