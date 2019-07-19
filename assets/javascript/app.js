@@ -45,17 +45,20 @@ function RenderResultsFrom(array) {
     var embedStills = [];
     var titles = [];
     var ids = [];
+    var ratings = [];
 
     // Extract required information from response
     [embedURLs, embedStills] = ExtractEmbedURLs(array);
     titles = ExtractTitles(array);
     ids = ExtractIDs(array);
+    ratings = ExtractRatings(array);
 
     // Iterate through embed urls, appending images to results area
     for (var i = 0; i < embedURLs.length; i++) {
         var container = $('<div>');
         var gifImage = $('<img>');
         var stillImage = $('<img>');
+        var ratingsText = $('<p>');
 
         // Build gif image attributes
         gifImage.addClass('img-thumbnail gif');
@@ -73,12 +76,16 @@ function RenderResultsFrom(array) {
         stillImage.attr('alt', titles[i]);
         stillImage.attr('data-still', titles[i]);
 
+        // Build ratings text
+        ratingsText.text(ratings[i]);
+
         // Add container attributes
         container.addClass('container');
         container.attr('id', 'imageBox');
         // Append images to container
         container.append(gifImage);
         container.append(stillImage);
+        container.append(ratingsText);
 
         // Append container to results
         resultsArea.append(container);
@@ -130,6 +137,17 @@ function ExtractTitles(results) {
         titles.push(results.data[i].title);
     }
     return titles
+}
+
+// Extract ratings from results
+function ExtractRatings(results) {
+    var ratings = [];
+
+    // For each item returned in result, append to embedURLs array
+    for (var i = 0; i < results.data.length; i++) {
+        ratings.push(results.data[i].rating);
+    }
+    return ratings
 }
 
 // Extract IDS from results
