@@ -1,3 +1,5 @@
+// Variable Declaration
+// 
 var games = ['Cyber Punk', 'Apex Legends', 'Fortnite', 'Devil May Cry', 'StarCraft', 'Diablo', 'Grand Theft Auto', 'Red Dead Redemption', 'Tomb Raider', 'Mario Kart', 'Super Mario', 'Final Fantasy'];
 var results = {};
 var gifImageURLs = [];
@@ -6,18 +8,23 @@ var gifImageStills = [];
 var apiKey = 'api_key=wqxHRPOli6qO50YxXqMbQ1wYnC3FPGhJ';
 var searchSyntax = 'https://api.giphy.com/v1/gifs/search?';
 
-
+// Function List
+// 
 // Takes in an array (ex. games) and outputs each item as a button in the btnArea
 function RenderButtonsFrom(array) {
+    // Prepare container div for button appending
     var container = $('<div>');
     container.addClass('container  col-12');
 
+    // Iterate through array producing a button for each item
     for (var i = 0; i < array.length; i++) {
         var button = $('<button>');
         button.addClass('btn btn-info');
         button.attr('id', 'topicButtons');
+        // Create custom text and data attribute
         button.attr('data-game', array[i]);
         button.text(array[i]);
+        // Append button to container
         container.append(button);
     }
 
@@ -39,6 +46,7 @@ function RenderResultsFrom(array) {
     var titles = [];
     var ids = [];
 
+    // Extract required information from response
     [embedURLs, embedStills] = ExtractEmbedURLs(array);
     titles = ExtractTitles(array);
     ids = ExtractIDs(array);
@@ -49,17 +57,18 @@ function RenderResultsFrom(array) {
         var gifImage = $('<img>');
         var stillImage = $('<img>');
 
+        // Build gif image attributes
         gifImage.addClass('img-thumbnail gif');
-        // Pass through Title converter to ensure no spaces for id name
-        gifImage.attr('id', ids[i]+'-gif');
+        // Suffix the id with -gif to denote the gif version of image
+        gifImage.attr('id', ids[i] + '-gif');
         gifImage.attr('src', embedURLs[i]);
         gifImage.attr('alt', titles[i]);
         gifImage.attr('data-GIF', titles[i]);
 
-
+        // Build still image attributes
         stillImage.addClass('img-thumbnail still');
-        // Pass through Title converter to ensure no spaces for id name
-        stillImage.attr('id', ids[i]+'-still');
+        // Suffix the id with -gif to denote the still version of image
+        stillImage.attr('id', ids[i] + '-still');
         stillImage.attr('src', embedStills[i]);
         stillImage.attr('alt', titles[i]);
         stillImage.attr('data-still', titles[i]);
@@ -109,7 +118,7 @@ function IDConverter(detail) {
         } else {
             term += detail[i];
         }
-        
+
     }
     // Trim for white space
     term.trim();
@@ -171,7 +180,9 @@ function ExtractEmbedURLs(results) {
     return [embedURLs, embedStills]
 }
 
-// Event handler for topic buttons being clicked
+// Event Handlers
+// 
+// Event handler for Game (topic) buttons being clicked
 $('#btnArea').on('click', '#topicButtons', function () {
     // Use title converter to convert attribute into search term
     var searchTerm = TitleConverter($(this).attr('data-game'));
@@ -180,7 +191,7 @@ $('#btnArea').on('click', '#topicButtons', function () {
     SearchAPICall(searchTerm);
 });
 
-// Event handler for adding value to button list
+// Event handler for adding value to button list using form
 $('#addGame').on('click', function (event) {
     // Stops page refresh from input form submission
     event.preventDefault();
@@ -192,11 +203,12 @@ $('#addGame').on('click', function (event) {
     RenderButtonsFrom(games);
 });
 
-$('#resultsArea').on('click', 'img', function(){
+// Event handler for clicked images in result area
+$('#resultsArea').on('click', 'img', function () {
     var imageKey = $(this).attr('id');
-    var gifImageResult = imageKey.split('-',2);
+    var gifImageResult = imageKey.split('-', 2);
 
-// Split result into portions
+    // Split result into portions
     var imageType = gifImageResult[1];
     var imageName = gifImageResult[0];
 
@@ -206,12 +218,7 @@ $('#resultsArea').on('click', 'img', function(){
         // Hide clicked image
         $(this).hide();
         // Show related image
-       
-        $('#'+imageName).show();
-        console.log("It's a gif");
-        console.log('to show');
-        console.log($('#'+imageName));
-
+        $('#' + imageName).show();
 
     } else if (imageType === 'still') {
 
@@ -219,14 +226,11 @@ $('#resultsArea').on('click', 'img', function(){
         // Hide clicked image
         $(this).hide();
         // Show related image
-        $('#'+imageName).show();
-        console.log("It's a still");
-        console.log('to show');
-        console.log($('#'+imageName));
-
+        $('#' + imageName).show();
     }
-    
+
 })
 
 // Arguments begin here
+// 
 RenderButtonsFrom(games);
