@@ -104,27 +104,6 @@ function TitleConverter(gameName) {
     return searchTerm
 }
 
-// ID converter for result images
-function IDConverter(detail) {
-    var term = '';
-
-    // Iterate through detail word
-    for (var i = 0; i < detail.length; i++) {
-        // If a special character, replace with underscore
-        if (detail[i] === ' ' || detail[i] === "'" || detail[i] === '-') {
-            term += '_';
-
-            // Else, use actual letter
-        } else {
-            term += detail[i];
-        }
-
-    }
-    // Trim for white space
-    term.trim();
-
-    return term
-}
 
 // Search GIPHY API using search syntax
 function SearchAPICall(searchTerm) {
@@ -134,6 +113,7 @@ function SearchAPICall(searchTerm) {
         method: "GET"
 
     }).then(function (response) {
+        console.log(response);
         // Assign response to results for future manipulation
         results = response;
         // Extract embed urls
