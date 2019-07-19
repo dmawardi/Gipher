@@ -53,14 +53,16 @@ function RenderResultsFrom(array) {
         var stillImage = $('<img>');
 
         gifImage.addClass('img-thumbnail gif');
-        gifImage.attr('id', 'gameGIFs');
+        // Pass through Title converter to ensure no spaces for id name
+        gifImage.attr('id', TitleConverter(titles[i])+'-gif');
         gifImage.attr('src', embedURLs[i]);
         gifImage.attr('alt', titles[i]);
         gifImage.attr('data-GIF', titles[i]);
 
 
         stillImage.addClass('img-thumbnail still');
-        stillImage.attr('id', 'gameStills');
+        // Pass through Title converter to ensure no spaces for id name
+        stillImage.attr('id', TitleConverter(titles[i])+'-still');
         stillImage.attr('src', embedStills[i]);
         stillImage.attr('alt', titles[i]);
         stillImage.attr('data-still', titles[i]);
@@ -90,6 +92,19 @@ function TitleConverter(gameName) {
         }
     }
     return searchTerm
+}
+
+// ID converter for gif links
+function IDConverter(detail) {
+    var term = '';
+    for (var i = 0; i < detail.length; i++) {
+        if (detail[i] === ' ') {
+            term += '_';
+        } else {
+            term += gameName[i];
+        }
+    }
+    return term
 }
 
 // Search GIPHY API using search syntax
@@ -159,8 +174,38 @@ $('#addGame').on('click', function (event) {
     RenderButtonsFrom(games);
 });
 
-$('#resultsArea').on('click', '.still', function(){
-    console.log('clicked: '+$(this).attr('data-still'));
+$('#resultsArea').on('click', 'img', function(){
+    var imageKey = $(this).attr('id');
+    var gifImageResult = imageKey.split('-',2);
+
+// Split result into portions
+    var imageType = gifImageResult[1];
+    var imageName = gifImageResult[0];
+
+    console.log(gifImageResult);
+    // if clicked item gif
+    if (imageType === 'gif') {
+        imageName = imageName + '-still';
+        // Hide clicked image
+        // $(this).hide();
+        // Show related image
+        $('#'+imageName).show();
+        console.log($('#'+imageName));
+
+    } else if (imageType === 'still') {
+        imageName = imageName + '-gif';
+        // Hide clicked image
+        // $(this).hide();
+        // Show related image
+        $('#'+imageName).show();
+        console.log('#'+imageName);
+
+    }
+    // Use key to find gif of same image
+    // gifImageResult = $('#gameGIFs[data-GIF='+imageKey+']');
+    // console.log('clicked: '+$(this).attr('data-still'));
+    // console.log('showing')
+    
     
 })
 
