@@ -4,3 +4,8 @@ body {
 .btn {
     margin: 5px 10px;
 }
+
+.gif {
+    /* Hide all gifs by default */
+    display: none;
+}
