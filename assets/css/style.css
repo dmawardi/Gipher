@@ -5,8 +5,16 @@ body {
     margin: 5px 10px;
 }
 
-#resultArea {
+#imageBox {
     display: inline;
+}
+
+.bottomRow {
+    border: solid 3px;
+}
+
+#resultsArea {
+    border: solid 1px;
 }
 
 .gif {

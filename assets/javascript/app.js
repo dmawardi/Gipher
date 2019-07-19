@@ -37,9 +37,11 @@ function RenderResultsFrom(array) {
     var embedURLs = [];
     var embedStills = [];
     var titles = [];
+    var ids = [];
 
     [embedURLs, embedStills] = ExtractEmbedURLs(array);
     titles = ExtractTitles(array);
+    ids = ExtractIDs(array);
 
     // Iterate through embed urls, appending images to results area
     for (var i = 0; i < embedURLs.length; i++) {
@@ -49,7 +51,7 @@ function RenderResultsFrom(array) {
 
         gifImage.addClass('img-thumbnail gif');
         // Pass through Title converter to ensure no spaces for id name
-        gifImage.attr('id', IDConverter(titles[i])+'-gif');
+        gifImage.attr('id', ids[i]+'-gif');
         gifImage.attr('src', embedURLs[i]);
         gifImage.attr('alt', titles[i]);
         gifImage.attr('data-GIF', titles[i]);
@@ -57,7 +59,7 @@ function RenderResultsFrom(array) {
 
         stillImage.addClass('img-thumbnail still');
         // Pass through Title converter to ensure no spaces for id name
-        stillImage.attr('id', IDConverter(titles[i])+'-still');
+        stillImage.attr('id', ids[i]+'-still');
         stillImage.attr('src', embedStills[i]);
         stillImage.attr('alt', titles[i]);
         stillImage.attr('data-still', titles[i]);
@@ -140,6 +142,17 @@ function ExtractTitles(results) {
         titles.push(results.data[i].title);
     }
     return titles
+}
+
+// Extract IDS from results
+function ExtractIDs(results) {
+    var ids = [];
+
+    // For each item returned in result, append to embedURLs array
+    for (var i = 0; i < results.data.length; i++) {
+        ids.push(results.data[i].id);
+    }
+    return ids
 }
 
 // Accepts GIPHY Object response to extract embed urls for resulting gifs and stills
