@@ -5,6 +5,10 @@ body {
     margin: 5px 10px;
 }
 
+#resultArea {
+    display: inline;
+}
+
 .gif {
     /* Hide all gifs by default */
     display: none;

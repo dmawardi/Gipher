@@ -41,11 +41,6 @@ function RenderResultsFrom(array) {
     [embedURLs, embedStills] = ExtractEmbedURLs(array);
     titles = ExtractTitles(array);
 
-    console.log('urls: ' + embedURLs);
-    console.log('stills: ' + embedStills);
-    console.log('titles: ' + titles);
-
-
     // Iterate through embed urls, appending images to results area
     for (var i = 0; i < embedURLs.length; i++) {
         var container = $('<div>');
@@ -54,7 +49,7 @@ function RenderResultsFrom(array) {
 
         gifImage.addClass('img-thumbnail gif');
         // Pass through Title converter to ensure no spaces for id name
-        gifImage.attr('id', TitleConverter(titles[i])+'-gif');
+        gifImage.attr('id', IDConverter(titles[i])+'-gif');
         gifImage.attr('src', embedURLs[i]);
         gifImage.attr('alt', titles[i]);
         gifImage.attr('data-GIF', titles[i]);
@@ -62,7 +57,7 @@ function RenderResultsFrom(array) {
 
         stillImage.addClass('img-thumbnail still');
         // Pass through Title converter to ensure no spaces for id name
-        stillImage.attr('id', TitleConverter(titles[i])+'-still');
+        stillImage.attr('id', IDConverter(titles[i])+'-still');
         stillImage.attr('src', embedStills[i]);
         stillImage.attr('alt', titles[i]);
         stillImage.attr('data-still', titles[i]);
@@ -73,7 +68,6 @@ function RenderResultsFrom(array) {
         // Append images to container
         container.append(gifImage);
         container.append(stillImage);
-        console.log(container);
 
         // Append container to results
         resultsArea.append(container);
@@ -84,9 +78,14 @@ function RenderResultsFrom(array) {
 // Function to convert titles for API Calls
 function TitleConverter(gameName) {
     var searchTerm = '';
+
+    // Iterate through game name
     for (var i = 0; i < gameName.length; i++) {
+        // If there's a space, replace with a + for API query
         if (gameName[i] === ' ') {
             searchTerm += '+';
+
+            // Else, use later
         } else {
             searchTerm += gameName[i];
         }
@@ -94,16 +93,25 @@ function TitleConverter(gameName) {
     return searchTerm
 }
 
-// ID converter for gif links
+// ID converter for result images
 function IDConverter(detail) {
     var term = '';
+
+    // Iterate through detail word
     for (var i = 0; i < detail.length; i++) {
-        if (detail[i] === ' ') {
+        // If a special character, replace with underscore
+        if (detail[i] === ' ' || detail[i] === "'" || detail[i] === '-') {
             term += '_';
+
+            // Else, use actual letter
         } else {
-            term += gameName[i];
+            term += detail[i];
         }
+        
     }
+    // Trim for white space
+    term.trim();
+
     return term
 }
 
@@ -127,7 +135,6 @@ function SearchAPICall(searchTerm) {
 function ExtractTitles(results) {
     var titles = [];
 
-    console.log(results.data);
     // For each item returned in result, append to embedURLs array
     for (var i = 0; i < results.data.length; i++) {
         titles.push(results.data[i].title);
@@ -140,13 +147,14 @@ function ExtractEmbedURLs(results) {
     var embedURLs = [];
     var embedStills = [];
 
-    console.log('Results length: '+results.data.length);
     // For each item returned in result, append to embedURLs array
     for (var i = 0; i < results.data.length; i++) {
+        // Append urls info for stills and urls
         embedURLs.push(results.data[i].images.downsized.url);
         embedStills.push(results.data[i].images.downsized_still.url);
 
     }
+
     return [embedURLs, embedStills]
 }
 
@@ -154,12 +162,9 @@ function ExtractEmbedURLs(results) {
 $('#btnArea').on('click', '#topicButtons', function () {
     // Use title converter to convert attribute into search term
     var searchTerm = TitleConverter($(this).attr('data-game'));
-    console.log(searchTerm);
 
     // Use function to Send Search API call to GIPHY and display to user results
-    var results = SearchAPICall(searchTerm);
-
-    console.log(results);
+    SearchAPICall(searchTerm);
 });
 
 // Event handler for adding value to button list
@@ -182,30 +187,31 @@ $('#resultsArea').on('click', 'img', function(){
     var imageType = gifImageResult[1];
     var imageName = gifImageResult[0];
 
-    console.log(gifImageResult);
     // if clicked item gif
     if (imageType === 'gif') {
         imageName = imageName + '-still';
         // Hide clicked image
-        // $(this).hide();
+        $(this).hide();
         // Show related image
+       
         $('#'+imageName).show();
+        console.log("It's a gif");
+        console.log('to show');
         console.log($('#'+imageName));
 
+
     } else if (imageType === 'still') {
+
         imageName = imageName + '-gif';
         // Hide clicked image
-        // $(this).hide();
+        $(this).hide();
         // Show related image
         $('#'+imageName).show();
-        console.log('#'+imageName);
+        console.log("It's a still");
+        console.log('to show');
+        console.log($('#'+imageName));
 
     }
-    // Use key to find gif of same image
-    // gifImageResult = $('#gameGIFs[data-GIF='+imageKey+']');
-    // console.log('clicked: '+$(this).attr('data-still'));
-    // console.log('showing')
-    
     
 })
 
