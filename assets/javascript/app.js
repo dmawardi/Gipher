@@ -134,7 +134,6 @@ function SearchAPICall(searchTerm) {
         method: "GET"
 
     }).then(function (response) {
-        console.log(response);
         // Assign response to results for future manipulation
         results = response;
         // Extract embed urls
