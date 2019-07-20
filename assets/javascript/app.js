@@ -77,7 +77,7 @@ function RenderResultsFrom(array) {
         stillImage.attr('data-still', titles[i]);
 
         // Build ratings text
-        ratingsText.text(ratings[i]);
+        ratingsText.text('Rating: '+ratings[i]);
 
         // Add container attributes
         container.addClass('container');
@@ -110,7 +110,6 @@ function TitleConverter(gameName) {
     }
     return searchTerm
 }
-
 
 // Search GIPHY API using search syntax
 function SearchAPICall(searchTerm) {
