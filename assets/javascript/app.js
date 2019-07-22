@@ -103,7 +103,7 @@ function TitleConverter(gameName) {
         if (gameName[i] === ' ') {
             searchTerm += '+';
 
-            // Else, use later
+            // Else, use letter
         } else {
             searchTerm += gameName[i];
         }
