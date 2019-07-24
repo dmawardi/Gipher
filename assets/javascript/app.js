@@ -61,7 +61,7 @@ function RenderResultsFrom(array) {
         var ratingsText = $('<p>');
 
         // Build gif image attributes
-        gifImage.addClass('img-thumbnail gif');
+        gifImage.addClass('img-thumbnail');
         // Suffix the id with -gif to denote the gif version of image
         gifImage.attr('id', ids[i] + '-gif');
         gifImage.attr('src', embedURLs[i]);
@@ -69,7 +69,7 @@ function RenderResultsFrom(array) {
         gifImage.attr('data-GIF', titles[i]);
 
         // Build still image attributes
-        stillImage.addClass('img-thumbnail still');
+        stillImage.addClass('img-thumbnail');
         // Suffix the id with -gif to denote the still version of image
         stillImage.attr('id', ids[i] + '-still');
         stillImage.attr('src', embedStills[i]);
@@ -77,7 +77,7 @@ function RenderResultsFrom(array) {
         stillImage.attr('data-still', titles[i]);
 
         // Build ratings text
-        ratingsText.text('Rating: '+ratings[i]);
+        ratingsText.text('Rating: ' + ratings[i].toUpperCase());
 
         // Add container attributes
         container.addClass('container');
@@ -208,6 +208,7 @@ $('#resultsArea').on('click', 'img', function () {
     var imageType = gifImageResult[1];
     var imageName = gifImageResult[0];
 
+    console.log(imageType);
     // if clicked item gif
     if (imageType === 'gif') {
         imageName = imageName + '-still';
@@ -229,4 +230,6 @@ $('#resultsArea').on('click', 'img', function () {
 
 // Arguments begin here
 // 
-RenderButtonsFrom(games);
+$(document).ready(function () {
+    RenderButtonsFrom(games);
+})
