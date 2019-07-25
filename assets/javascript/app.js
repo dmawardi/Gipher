@@ -198,6 +198,9 @@ $('#addGame').on('click', function (event) {
     sessionStorage.setItem('games', JSON.stringify(games));
     // re-render buttons from games
     RenderButtonsFrom(games);
+
+    // Clear input box
+    $('#gameInput').val('');
 });
 
 // Event handler for clicked images in result area
