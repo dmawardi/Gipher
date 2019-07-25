@@ -119,7 +119,6 @@ function SearchAPICall(searchTerm) {
         method: "GET"
 
     }).then(function (response) {
-        console.log(response);
         // Assign response to results for future manipulation
         results = response;
         // Extract embed urls
@@ -194,8 +193,10 @@ $('#addGame').on('click', function (event) {
     // Take new game user input value submitted by user and assign: newGameName
     var newGameName = $('#gameInput').val();
 
-    // Push new game to games array and re-render buttons from games
+    // Push new game to games array and store stringified array to sessionstorage
     games.push(newGameName);
+    sessionStorage.setItem('games', JSON.stringify(games));
+    // re-render buttons from games
     RenderButtonsFrom(games);
 });
 
@@ -208,7 +209,6 @@ $('#resultsArea').on('click', 'img', function () {
     var imageType = gifImageResult[1];
     var imageName = gifImageResult[0];
 
-    console.log(imageType);
     // if clicked item gif
     if (imageType === 'gif') {
         imageName = imageName + '-still';
@@ -231,5 +231,13 @@ $('#resultsArea').on('click', 'img', function () {
 // Arguments begin here
 // 
 $(document).ready(function () {
+    // Use JSON parse to interpret games array in session storage
+    var gamesCheck = JSON.parse(sessionStorage.getItem('games'));
+
+    if (gamesCheck != null) {
+        games = gamesCheck;
+    }
+
+    // Render buttons
     RenderButtonsFrom(games);
 })
