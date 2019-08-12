@@ -18,6 +18,9 @@ Uses the Giphy API to pull the top 20 GIF results for the particular search term
 * JS / JQuery
 * Bootstrap
 
+### APIs
+* [Giphy API](https://developers.giphy.com/) - Used for calling top results with search term parameter
+
 ## Authors
 
 * **Dannar Mawardi** - *Initial work* - [GitHub IO](https://dmawardi.github.io)
