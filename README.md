@@ -41,7 +41,7 @@ Don't see the game you need GIFS for?  You are able to add custom buttons using 
 
 ## Meta
 
-Dannar Mawardi – dmawardi.github.io – dmawardi@gmail.com
+Dannar Mawardi – dmawardi.github.io
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
