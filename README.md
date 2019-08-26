@@ -1,5 +1,6 @@
 # Gipher
 > A page that allows the user to search the Giphy API using buttons containing search terms for API calls.
+
 Monash Web App Development Week 6: Gipher
 
 The Gipher application uses the Giphy API to pull the top 20 GIF results for a particular search term. Search terms can be added in the form of buttons on the top, which call the API and populate results on when the user clicks on it.
